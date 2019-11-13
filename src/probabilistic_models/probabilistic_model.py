@@ -1,5 +1,5 @@
 import pickle
-from src.probabilistic_models.grammar_utils import score
+from src.probabilistic_models.grammar_utils import score, update
 from math import log
 from decimal import Decimal
 
@@ -18,6 +18,7 @@ def probabilistic_model_guesses(password):
 
 def probabilistic_model_result(password):
     guesses = probabilistic_model_guesses(password)
+    update(password)
     return {
         "guesses_log10" : log(guesses, 10),
         "guesses" : Decimal(guesses),

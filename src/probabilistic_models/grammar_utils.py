@@ -1,3 +1,5 @@
+import pickle
+
 def cut(composed_base):
     res = []
     b = composed_base[0]
@@ -46,3 +48,24 @@ def score(w, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict):
             S = 0
     return S
 
+def update(password):
+    T, Qw = bases(password)
+    (cb_counter, Q) = pickle.load(open("cb_dictionary.p", "rb"))
+    (sb_counter, B) = pickle.load(open("sb_dictionary.p", "rb"))
+
+    if Qw in Q :
+        Q[Qw] += 1
+    else :
+        Q[Qw] = 1
+    cb_counter += 1
+
+    for Tj in T :
+        if Tj in B :
+            B[Tj] += 1
+        else :
+            B[Tj] = 1
+        sb_counter += 1
+
+    pickle.dump((cb_counter, Q), open("cb_dictionary.p", "wb"))
+    pickle.dump((sb_counter, B), open("sb_dictionary.p", "wb"))
+    return
