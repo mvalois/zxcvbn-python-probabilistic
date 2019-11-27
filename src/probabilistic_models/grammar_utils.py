@@ -26,6 +26,7 @@ def bases(w) :
             composed_base += char_type(word[-1]) + str(len(word))
             word = c
     simple_bases.append(word)
+
     composed_base += char_type(word[-1]) + str(len(word))
     return simple_bases, composed_base
 

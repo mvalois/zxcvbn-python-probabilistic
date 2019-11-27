@@ -18,7 +18,7 @@ def construct_dict():
     print(d)
 
 
-gr.construct_grammar_model()
+# gr.construct_grammar_model()
 
 (cb_counter, Q) = pickle.load(open("cb_dictionary.p", "rb"))
 (sb_counter, B) = pickle.load(open("sb_dictionary.p", "rb"))
@@ -26,3 +26,7 @@ gr.construct_grammar_model()
 
 print(l1)
 
+d = pickle.load(open("rockyou_dictionary.p", "rb"))
+dico = { 'truc' : d}
+
+gr.construct_grammar_model(dico)
