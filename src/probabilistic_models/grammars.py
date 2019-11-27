@@ -29,25 +29,33 @@ add_frequency_lists(FREQUENCY_LISTS)
 def construct_grammar_model(_ranked_dictionaries=FREQUENCY_DICTIONARIES):
     composed_bases_dict = dict()
     simple_bases_dict = dict()
-    composed_bases_list = []
+    composed_bases_list = dict()
     simple_bases_lists = dict()
+
     cb_counter = 0
     sb_counter = 0
+
+    tmp_cb_dict = dict()
+    tmp_sb_lists = dict()
 
     for dictionary_name, frequency_dict in _ranked_dictionaries.items():
         for w in frequency_dict:
             k = frequency_dict[w]
             simple_bases, composed_base = gru.bases(w)
-            for i in range(k):
-                composed_bases_list.append(composed_base)
+            if composed_base in tmp_cb_dict:
+                tmp_cb_dict[composed_base] += k
+            else:
+                tmp_cb_dict[composed_base] = k
             simple_bases_pattern = gru.cut(composed_base)
             for i in range(len(simple_bases)):
                 p = simple_bases_pattern[i]
-                for i in range(k):
-                    if p in simple_bases_lists:
-                        simple_bases_lists[p].append(simple_bases[i])
+                if p in tmp_sb_lists:
+                    if simple_bases[i] in tmp_sb_lists[p]:
+                        tmp_sb_lists[p][simple_bases[i]] += k
                     else:
-                        simple_bases_lists[p] = [simple_bases[i]]
+                        tmp_sb_lists[p][simple_bases[i]] = k
+                else:
+                    tmp_sb_lists[p] = {simple_bases[i]: k}
             cb_counter += k
             if composed_base in composed_bases_dict:
                 composed_bases_dict[composed_base] += k
@@ -59,6 +67,18 @@ def construct_grammar_model(_ranked_dictionaries=FREQUENCY_DICTIONARIES):
                     simple_bases_dict[b] += k
                 else:
                     simple_bases_dict[b] = k
+
+    key = 0
+    for cb in tmp_cb_dict:
+        key += tmp_cb_dict[cb]
+        composed_bases_list[key] = cb
+
+    for cbp in tmp_sb_lists:
+        key = 0
+        simple_bases_lists[cbp] = {}
+        for cb in tmp_sb_lists[cbp]:
+            key += tmp_sb_lists[cbp][cb]
+            simple_bases_lists[cbp][key] = cb
 
     pickle.dump((cb_counter, composed_bases_dict), open("cb_dictionary.p", "wb"))
     pickle.dump((sb_counter, simple_bases_dict), open("sb_dictionary.p", "wb"))
