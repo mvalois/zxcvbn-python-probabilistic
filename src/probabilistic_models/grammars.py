@@ -39,34 +39,46 @@ def construct_grammar_model(_ranked_dictionaries=FREQUENCY_DICTIONARIES):
     tmp_sb_lists = dict()
 
     for dictionary_name, frequency_dict in _ranked_dictionaries.items():
+        iter_verif = 0
+        ll = len(frequency_dict)//100
         for w in frequency_dict:
-            k = frequency_dict[w]
-            simple_bases, composed_base = gru.bases(w)
-            if composed_base in tmp_cb_dict:
-                tmp_cb_dict[composed_base] += k
-            else:
-                tmp_cb_dict[composed_base] = k
-            simple_bases_pattern = gru.cut(composed_base)
-            for i in range(len(simple_bases)):
-                p = simple_bases_pattern[i]
-                if p in tmp_sb_lists:
-                    if simple_bases[i] in tmp_sb_lists[p]:
-                        tmp_sb_lists[p][simple_bases[i]] += k
+
+            if w != "":
+
+                if iter_verif % ll == 0:
+                    print(iter_verif//ll, "%")
+                iter_verif += 1
+
+                k = frequency_dict[w]
+                simple_bases, composed_base = gru.bases(w)
+                if composed_base in tmp_cb_dict:
+                    tmp_cb_dict[composed_base] += k
+                else:
+                    tmp_cb_dict[composed_base] = k
+                simple_bases_pattern = gru.cut(composed_base)
+                for i in range(len(simple_bases)):
+                    p = simple_bases_pattern[i]
+                    if p in tmp_sb_lists:
+                        if simple_bases[i] in tmp_sb_lists[p]:
+                            tmp_sb_lists[p][simple_bases[i]] += k
+                        else:
+                            tmp_sb_lists[p][simple_bases[i]] = k
                     else:
-                        tmp_sb_lists[p][simple_bases[i]] = k
+                        tmp_sb_lists[p] = {simple_bases[i]: k}
+                cb_counter += k
+                if composed_base in composed_bases_dict:
+                    composed_bases_dict[composed_base] += k
                 else:
-                    tmp_sb_lists[p] = {simple_bases[i]: k}
-            cb_counter += k
-            if composed_base in composed_bases_dict:
-                composed_bases_dict[composed_base] += k
-            else:
-                composed_bases_dict[composed_base] = k
-            for b in simple_bases:
-                sb_counter += k
-                if b in simple_bases_dict:
-                    simple_bases_dict[b] += k
-                else:
-                    simple_bases_dict[b] = k
+                    composed_bases_dict[composed_base] = k
+                for b in simple_bases:
+                    sb_counter += k
+                    if b in simple_bases_dict:
+                        simple_bases_dict[b] += k
+                    else:
+                        simple_bases_dict[b] = k
+
+    pickle.dump((cb_counter, composed_bases_dict), open("cb_dictionary.p", "wb"))
+    pickle.dump((sb_counter, simple_bases_dict), open("sb_dictionary.p", "wb"))
 
     key = 0
     for cb in tmp_cb_dict:
@@ -80,8 +92,6 @@ def construct_grammar_model(_ranked_dictionaries=FREQUENCY_DICTIONARIES):
             key += tmp_sb_lists[cbp][cb]
             simple_bases_lists[cbp][key] = cb
 
-    pickle.dump((cb_counter, composed_bases_dict), open("cb_dictionary.p", "wb"))
-    pickle.dump((sb_counter, simple_bases_dict), open("sb_dictionary.p", "wb"))
     pickle.dump((composed_bases_list, simple_bases_lists), open("lists.p", "wb"))
 
     return

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a918ac0e-b9d9-40c8-8e60-2df8429d77b5" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/probabilistic_models/cb_dictionary.p" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/cb_dictionary.p" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/probabilistic_models/construct_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/construct_test.py" afterDir="false" />
@@ -175,7 +176,7 @@
       <workItem from="1573640061258" duration="10053000" />
       <workItem from="1574847109853" duration="479000" />
       <workItem from="1574848103055" duration="3058000" />
-      <workItem from="1574857254344" duration="2674000" />
+      <workItem from="1574857254344" duration="5791000" />
     </task>
     <servers />
   </component>
@@ -216,6 +217,6 @@
     <SUITE FILE_PATH="coverage/zxcvbn$test_proba.coverage" NAME="test_proba Coverage Results" MODIFIED="1573638492163" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/probabilistic_models" />
     <SUITE FILE_PATH="coverage/zxcvbn_project$proba_model_test.coverage" NAME="proba_model_test Coverage Results" MODIFIED="1573657517424" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/probabilistic_models" />
     <SUITE FILE_PATH="coverage/zxcvbn_project$pytest_in_test_proba_py.coverage" NAME="pytest in test_proba.py Coverage Results" MODIFIED="1573640990399" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/probabilistic_models" />
-    <SUITE FILE_PATH="coverage/zxcvbn_project$construct_test.coverage" NAME="construct_test Coverage Results" MODIFIED="1574859848618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/probabilistic_models" />
+    <SUITE FILE_PATH="coverage/zxcvbn_project$construct_test.coverage" NAME="construct_test Coverage Results" MODIFIED="1574861822946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/src/probabilistic_models" />
   </component>
 </project>
