@@ -3,6 +3,7 @@ from src.probabilistic_models.grammar_utils import score, update
 from math import log
 from decimal import Decimal
 
+
 def probabilistic_model_guesses(password):
     scores = pickle.load(open("scores.p", "rb"))
     (cb_counter, Q) = pickle.load(open("cb_dictionary.p", "rb"))
@@ -26,3 +27,4 @@ def probabilistic_model_result(password):
         "password" : password,
         "pattern" : "probabilistic_model"
     }
+

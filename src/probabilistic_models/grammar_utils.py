@@ -36,19 +36,34 @@ def char_type(c):
     elif c.isalpha(): return 'L'
     else : return 'S'
 
-    
-def score(w, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict):
+
+def score(w, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict, simple_bases_list):
     B, Q = bases(w)
     S = 0
     if Q in composed_bases_dict:
         S = composed_bases_dict[Q]/cb_counter
-    for b in B:
-        if b in simple_bases_dict:
-            S *= simple_bases_dict[b]/sb_counter
+    simple_bases = cut(Q)
+    for i in range(len(simple_bases)):
+        p = simple_bases[i]
+        b = B[i]
+        if p in simple_bases_dict:
+            d = simple_bases_list[p]
+            if b in d:
+                nb_bases = d[b] - 1
+                while nb_bases not in d:
+                    nb_bases -= 1
+                nb_bases = d[b] - nb_bases
+                S *= nb_bases/sb_counter
+            else:
+                return 0
         else:
-            S = 0
+            return 0
     return S
 
+
+###
+### à modifier
+###
 def update(password):
     T, Qw = bases(password)
     (cb_counter, Q) = pickle.load(open("cb_dictionary.p", "rb"))
