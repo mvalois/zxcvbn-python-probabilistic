@@ -2,17 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a918ac0e-b9d9-40c8-8e60-2df8429d77b5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/cb_dictionary.p" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/cb_dictionary.p" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/construct_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/construct_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/grammar_utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/grammar_utils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/grammars.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/grammars.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/lists.p" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/lists.p" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/probabilistic_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/probabilistic_model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/random_set.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/random_set.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/sb_dictionary.p" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/sb_dictionary.p" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/scores.p" beforeDir="false" afterPath="$PROJECT_DIR$/src/probabilistic_models/scores.p" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/probabilistic_models/lists.p" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -184,7 +174,7 @@
       <workItem from="1574857254344" duration="5791000" />
       <workItem from="1574864523598" duration="3084000" />
       <workItem from="1574869132662" duration="1691000" />
-      <workItem from="1576050973656" duration="11825000" />
+      <workItem from="1576050973656" duration="12605000" />
     </task>
     <servers />
   </component>
