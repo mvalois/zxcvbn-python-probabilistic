@@ -45,27 +45,27 @@ def scores(n):
     (sb_counter, simple_bases_dict) = pickle.load(open("sb_dictionary.p", "rb"))
     scores_list = []
 
-    # cbo_list = []
-    # sbo_lists = dict()
-    #
-    # for k in composed_bases_list:
-    #     bisect.insort(cbo_list, k)
-    #     simple_bases = gru.cut(composed_bases_list[k])
-    #     for base in simple_bases:
-    #         print(base)
-    #         if not (base in sbo_lists):
-    #             sbo_lists[base] = []
-    #             for l in simple_bases_lists[base]:
-    #                 bisect.insort(sbo_lists[base], l)
-    #             print(sbo_lists[base])
-    #
-    # print(cbo_list)
-    #
-    # pickle.dump(cbo_list, open("cbo.p", "wb"))
-    # pickle.dump(sbo_lists, open("sbo.p", "wb"))
+    cbo_list = []
+    sbo_lists = dict()
+    
+    for k in composed_bases_list:
+        bisect.insort(cbo_list, k)
+        simple_bases = gru.cut(composed_bases_list[k])
+        for base in simple_bases:
+            print(base)
+            if not (base in sbo_lists):
+                sbo_lists[base] = []
+                for l in simple_bases_lists[base]:
+                    bisect.insort(sbo_lists[base], l)
+                print(sbo_lists[base])
+    
+    print(cbo_list)
+    
+    pickle.dump(cbo_list, open("cbo.p", "wb"))
+    pickle.dump(sbo_lists, open("sbo.p", "wb"))
 
-    cbo_list = pickle.load(open("cbo.p", "rb"))
-    sbo_lists = pickle.load(open("sbo.p", "rb"))
+    # cbo_list = pickle.load(open("cbo.p", "rb"))
+    # sbo_lists = pickle.load(open("sbo.p", "rb"))
 
     for i in range(n):
         if (i%10000)==0:

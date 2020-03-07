@@ -18,11 +18,7 @@ def construct_dict():
         n = int(l[0:8])
         w = l[8:-1]
         d[w] = n
-        if i%1000 == 0:
-            print(i)
-            print((w,n))
     pickle.dump(d, open("rockyou_dictionary.p", "wb"))
-    print(d)
 
 
 def construct_time_test(dico, name, n):
@@ -107,10 +103,10 @@ def construct_time_test(dico, name, n):
     # plt.show()
 
 
-# d = pickle.load(open("rockyou_dictionary.p", "rb"))
-# dico = { 'rockyou' : d}
+d = pickle.load(open("rockyou_dictionary.p", "rb"))
+dico = { 'rockyou' : d}
 
-# rdset.scores(10000000)
+rdset.scores(10000000)
 
-# gr.construct_grammar_model(dico)
-# construct_time_test(d, "rockyou", 10)
+gr.construct_grammar_model(dico)
+construct_time_test(d, "rockyou", 10)

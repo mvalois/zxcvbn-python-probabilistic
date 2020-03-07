@@ -4,11 +4,11 @@ from decimal import Decimal
 
 
 def probabilistic_model_guesses(password):
-    (composed_bases_list, simple_bases_lists) = pickle.load(open("src/probabilistic_models/lists.p", "rb"))
-    (cb_counter, composed_bases_dict) = pickle.load(open("src/probabilistic_models/cb_dictionary.p", "rb"))
-    (sb_counter, simple_bases_dict) = pickle.load(open("src/probabilistic_models/sb_dictionary.p", "rb"))
-    sbo_lists = pickle.load(open("src/probabilistic_models/sbo.p", "rb"))
-    scores = pickle.load(open("src/probabilistic_models/scores.p", "rb"))
+    (composed_bases_list, simple_bases_lists) = pickle.load(open("lists.p", "rb"))
+    (cb_counter, composed_bases_dict) = pickle.load(open("cb_dictionary.p", "rb"))
+    (sb_counter, simple_bases_dict) = pickle.load(open("sb_dictionary.p", "rb"))
+    sbo_lists = pickle.load(open("sbo.p", "rb"))
+    scores = pickle.load(open("scores.p", "rb"))
     score_password = score(password, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict, simple_bases_lists, sbo_lists)
     len_score = len(scores)
     rank_password = 0
