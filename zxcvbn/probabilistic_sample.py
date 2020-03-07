@@ -9,16 +9,14 @@ from . import random_set as rdset
 
 
 
-def construct_dict():
-    f = open("rockyou-withcount-utf-8.txt", "r")
-    i = 0
+def construct_dict(d):
+    f = open(d, "r")
     d = dict()
     for l in f:
-        i+=1
-        n = int(l[0:8])
-        w = l[8:-1]
+        n = int(l[:8])
+        w = l[8:]
         d[w] = n
-    pickle.dump(d, open("rockyou_dictionary.p", "wb"))
+    return d
 
 
 def construct_time_test(dico, name, n):
@@ -102,11 +100,14 @@ def construct_time_test(dico, name, n):
     # plt.ylabel("time (s)")
     # plt.show()
 
+def monte_carlo_sample(d, n, load=False):
+    if load:
+        d = pickle.load(open(d, "rb"))
+    else:
+        d = construct_dict(d)
+    dico = { 'rockyou' : d}
 
-d = pickle.load(open("rockyou_dictionary.p", "rb"))
-dico = { 'rockyou' : d}
+    rdset.scores(10000000)
 
-rdset.scores(10000000)
-
-gr.construct_grammar_model(dico)
-construct_time_test(d, "rockyou", 10)
+    gr.construct_grammar_model(dico)
+    construct_time_test(d, "rockyou", 10)

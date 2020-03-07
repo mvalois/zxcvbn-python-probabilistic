@@ -39,12 +39,24 @@ def draw_score(cb_counter, sb_counter, cbo_list, cb_list, sb_dict, sbo_lists, sb
         s *= (sb_sup-sb_inf)/sb_counter
     return s
 
-def scores(n):
-    (composed_bases_list, simple_bases_lists) = pickle.load(open("lists.p", "rb"))
-    (cb_counter, composed_bases_dict) = pickle.load(open("cb_dictionary.p", "rb"))
-    (sb_counter, simple_bases_dict) = pickle.load(open("sb_dictionary.p", "rb"))
+def scores(n, base_lists, cb, sb, load=False):
+    """
+    n: size of the sample
+    base_lists: tuple of lists of composed bases and simple bases (or pickled file if load)
+    cb: tuple of number of composed bases and dict of composed bases (or pickled file if load)
+    sb: same for simple bases (or pickled file if load)
+    load: either load or not from pickled objects
+    """
+    if load:
+        (composed_bases_list, simple_bases_lists) = pickle.load(open(base_lists, "rb"))
+        (cb_counter, composed_bases_dict) = pickle.load(open(cb, "rb"))
+        (sb_counter, simple_bases_dict) = pickle.load(open(sb, "rb"))
+    else:
+        (composed_bases_list, simple_bases_lists) = base_lists
+        (cb_counter, composed_bases_dict) = cb
+        (sb_counter, simple_bases_dict) = sb
+    
     scores_list = []
-
     cbo_list = []
     sbo_lists = dict()
     
@@ -52,25 +64,12 @@ def scores(n):
         bisect.insort(cbo_list, k)
         simple_bases = gru.cut(composed_bases_list[k])
         for base in simple_bases:
-            print(base)
             if not (base in sbo_lists):
                 sbo_lists[base] = []
                 for l in simple_bases_lists[base]:
                     bisect.insort(sbo_lists[base], l)
-                print(sbo_lists[base])
-    
-    print(cbo_list)
-    
-    pickle.dump(cbo_list, open("cbo.p", "wb"))
-    pickle.dump(sbo_lists, open("sbo.p", "wb"))
-
-    # cbo_list = pickle.load(open("cbo.p", "rb"))
-    # sbo_lists = pickle.load(open("sbo.p", "rb"))
 
     for i in range(n):
-        if (i%10000)==0:
-            print(i)
         scores_list.append(draw_score(cb_counter, sb_counter, cbo_list, composed_bases_list, simple_bases_dict, sbo_lists, simple_bases_lists))
-    pickle.dump(scores_list, open("scores.p", "wb"))
 
-    return
+    return scores_list
