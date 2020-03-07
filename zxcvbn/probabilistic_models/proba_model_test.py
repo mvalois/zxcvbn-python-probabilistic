@@ -1,9 +1,9 @@
 import pickle
-import probabilistic_models.grammar_utils as gru
-import probabilistic_models.random_set as rs
+from . import grammar_utils as gru
+from . import random_set as rs
 
-from probabilistic_models import grammars
-from probabilistic_models.probabilistic_model import probabilistic_model_guesses
+from . import grammars
+from .probabilistic_model import probabilistic_model_guesses
 
 fl = {
     "1": "aaaaa123bb,ccc**azerty".split(","),

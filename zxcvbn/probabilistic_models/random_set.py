@@ -3,7 +3,7 @@ import random
 import bisect
 import time
 
-import probabilistic_models.grammar_utils as gru
+from . import grammar_utils as gru
 
 
 

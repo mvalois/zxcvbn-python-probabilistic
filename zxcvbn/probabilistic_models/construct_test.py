@@ -1,9 +1,11 @@
-import pickle
-import src.probabilistic_models.grammars as gr
 from time import time
+import pickle
+
 import matplotlib.pyplot as plt
-import src.probabilistic_models.grammar_utils as gru
-import src.probabilistic_models.random_set as rdset
+
+from . import grammars as gr
+from . import grammar_utils as gru
+from . import random_set as rdset
 
 
 

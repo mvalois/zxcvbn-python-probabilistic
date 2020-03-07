@@ -1,4 +1,4 @@
-from src import zxcvbn_functions as zx
+import zxcvbn as zx
 
 results = zx.zxcvbn('cloudpasswordmoon')
 

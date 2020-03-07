@@ -1,5 +1,5 @@
 import pickle
-from src.probabilistic_models.grammar_utils import score, update
+from .grammar_utils import score, update
 from decimal import Decimal
 
 

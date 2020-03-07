@@ -1,5 +1,5 @@
-import probabilistic_models.grammar_utils as gru
-from zxcvbn_functions.frequency_lists import FREQUENCY_LISTS
+from . import grammar_utils as gru
+from zxcvbn.frequency_lists import FREQUENCY_LISTS
 import pickle
 
 
