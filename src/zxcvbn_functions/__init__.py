@@ -1,6 +1,7 @@
 from datetime import datetime
 from src.probabilistic_models import probabilistic_model
 from . import matching, scoring, time_estimates, feedback
+from math import log
 
 
 def zxcvbn(password, user_inputs=None):
@@ -35,6 +36,7 @@ def zxcvbn(password, user_inputs=None):
     attack_times = time_estimates.estimate_attack_times(result['guesses'])
     for prop, val in attack_times.items():
         result[prop] = val
+
 
     result['feedback'] = feedback.get_feedback(result['score'],
                                                result['sequence'])

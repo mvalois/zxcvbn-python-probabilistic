@@ -1,5 +1,42 @@
 import pickle
 
+def dichotomy(li, e):
+    inf = 0
+    sup = len(li)
+    med = sup//2
+    if e >= li[-1]:
+        return li[-1]
+    while 1:
+        if e > li[med]:
+            if e <= li[med + 1]:
+                return li[med + 1]
+            inf = med
+        else:
+            if (med == 0) or (e > li[med - 1]):
+                return li[med]
+            sup = med
+        med = (sup + inf) // 2
+
+
+def dichotomy_inf(li, e):
+    inf = 0
+    sup = len(li)
+    med = sup//2
+    if e >= li[-1]:
+        return li[-1]
+    while 1:
+        if e >= li[med]:
+            if e <= li[med + 1]:
+                return li[med]
+            inf = med
+        else:
+            if med == 0:
+                return 0
+            if e >= li[med - 1]:
+                return li[med - 1]
+            sup = med
+        med = (sup + inf) // 2
+
 def cut(composed_base):
     res = []
     b = composed_base[0]
@@ -37,7 +74,7 @@ def char_type(c):
     else : return 'S'
 
 
-def score(w, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict, simple_bases_list):
+def score(w, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict, simple_bases_list, sbo_lists):
     B, Q = bases(w)
     S = 0
     if Q in composed_bases_dict:
@@ -48,11 +85,14 @@ def score(w, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict, sim
         b = B[i]
         if p in simple_bases_dict:
             d = simple_bases_list[p]
-            if b in d:
-                nb_bases = d[b] - 1
-                while nb_bases not in d:
-                    nb_bases -= 1
-                nb_bases = d[b] - nb_bases
+            nb_bases = 0
+            for k, v in d.items():
+                if v == b:
+                    nb_bases = k - 1
+                    break
+            if nb_bases != 0:
+                nb_bases = dichotomy_inf(sbo_lists[p], nb_bases)
+                nb_bases = k - nb_bases
                 S *= nb_bases/sb_counter
             else:
                 return 0

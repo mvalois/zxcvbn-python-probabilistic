@@ -105,20 +105,10 @@ def construct_time_test(dico, name, n):
     plt.show()
 
 
-
-
-# gr.construct_grammar_model()
-#
-# (cb_counter, Q) = pickle.load(open("cb_dictionary.p", "rb"))
-#(sb_counter, B) = pickle.load(open("sb_dictionary.p", "rb"))
-# (l1,l2) = pickle.load(open("lists.p", "rb"))
-#
-# print(B)
-#
 # d = pickle.load(open("rockyou_dictionary.p", "rb"))
-# dico = { 'truc' : d}
+# dico = { 'rockyou' : d}
 
-rdset.scores(10000)
+# rdset.scores(10000000)
 
 # gr.construct_grammar_model(dico)
-# construct_time_test(d, "truc", 10)
+# construct_time_test(d, "rockyou", 10)
