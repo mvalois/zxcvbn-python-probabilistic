@@ -8,7 +8,7 @@ from _parse import ffi, lib as plib
 def S(): return 'S'
 
 class Grammar:
-	def __init__(self, filename, count=False):
+	def __init__(self, filename, n=10**4, count=False):
 		# If letter is not lower or digit it's special
 		self.type = ddict(S)
 		for alpha in string.ascii_letters:
@@ -32,6 +32,7 @@ class Grammar:
 		self.ordered_terms = dict()
 		self.count = count
 		self.learn(filename)
+		self.sample = self.monte_carlo_sample(n)
 
 	def learn(self, filename):
 		"""
@@ -120,4 +121,10 @@ class Grammar:
 					psous_bases = cache[sous_base]
 				p *= random.choices(psous_bases, psous_bases)[0]
 			psamples.append(p)
-		return psamples
+		return sorted(psamples, reverse=True)
+
+	def get_rank(self, word):
+		n = len(self.sample)
+		p = self.proba(word)
+		rank = sum([1/(s*n) for s in self.sample if s > p])
+		return rank
