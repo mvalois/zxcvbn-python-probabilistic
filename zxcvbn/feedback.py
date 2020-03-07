@@ -1,4 +1,4 @@
-from src.zxcvbn_functions.scoring import *
+from .scoring import *
 from gettext import gettext as _
 
 

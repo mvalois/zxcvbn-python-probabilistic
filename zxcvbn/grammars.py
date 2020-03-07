@@ -1,5 +1,5 @@
 from . import grammar_utils as gru
-from zxcvbn.frequency_lists import FREQUENCY_LISTS
+from .frequency_lists import FREQUENCY_LISTS
 import pickle
 
 

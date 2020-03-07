@@ -1,7 +1,7 @@
-from src.zxcvbn_functions import scoring
-from src.zxcvbn_functions.scoring import *
+from . import scoring
+from .scoring import *
 from . import adjacency_graphs
-from src.zxcvbn_functions.frequency_lists import FREQUENCY_LISTS
+from .frequency_lists import FREQUENCY_LISTS
 import re
 
 

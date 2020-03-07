@@ -1,4 +1,4 @@
-import src.zxcvbn_functions as zx
+import zxcvbn as zx
 import json
 
 results = zx.zxcvbn('azerty')

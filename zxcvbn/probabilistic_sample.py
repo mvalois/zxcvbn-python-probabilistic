@@ -1,7 +1,7 @@
 from time import time
 import pickle
 
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 from . import grammars as gr
 from . import grammar_utils as gru
@@ -101,10 +101,10 @@ def construct_time_test(dico, name, n):
         times.append(t2-t1)
         lengths.append(pow(2, j)*d_length)
 
-    plt.plot(lengths, times, "red")
-    plt.xlabel("length of dictionary")
-    plt.ylabel("time (s)")
-    plt.show()
+    # plt.plot(lengths, times, "red")
+    # plt.xlabel("length of dictionary")
+    # plt.ylabel("time (s)")
+    # plt.show()
 
 
 # d = pickle.load(open("rockyou_dictionary.p", "rb"))

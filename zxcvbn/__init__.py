@@ -1,5 +1,5 @@
 from datetime import datetime
-from probabilistic_models import probabilistic_model
+from . import probabilistic_model
 from . import matching, scoring, time_estimates, feedback
 from math import log
 
