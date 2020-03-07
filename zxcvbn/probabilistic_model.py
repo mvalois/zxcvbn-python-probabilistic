@@ -1,20 +1,24 @@
 import pickle
 from .grammar_utils import score, update
+from .probabilistic_sample import monte_carlo_sample
 from decimal import Decimal
 
+MODEL=list()
+SAMPLE=list()
 
-def probabilistic_model_guesses(password):
-    (composed_bases_list, simple_bases_lists) = pickle.load(open("lists.p", "rb"))
-    (cb_counter, composed_bases_dict) = pickle.load(open("cb_dictionary.p", "rb"))
-    (sb_counter, simple_bases_dict) = pickle.load(open("sb_dictionary.p", "rb"))
+def probabilistic_model_guesses(password, d, n):
+    if not MODEL:
+        MODEL, SAMPLE = monte_carlo_sample(d, n)
+    (composed_bases_list, simple_bases_lists) = MODEL[0]
+    (cb_counter, composed_bases_dict) = MODEL[1]
+    (sb_counter, simple_bases_dict) = MODEL[2]
     sbo_lists = pickle.load(open("sbo.p", "rb"))
-    scores = pickle.load(open("scores.p", "rb"))
     score_password = score(password, cb_counter, sb_counter, composed_bases_dict, simple_bases_dict, simple_bases_lists, sbo_lists)
-    len_score = len(scores)
+    len_score = len(SAMPLE)
     rank_password = 0
     for i in range(len_score):
-        if scores[i] > score_password:
-            rank_password += 1/(scores[i]*len_score)
+        if SAMPLE[i] > score_password:
+            rank_password += 1/(SAMPLE[i]*len_score)
     return int(rank_password)
 
 

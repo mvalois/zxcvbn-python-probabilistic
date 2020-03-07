@@ -39,22 +39,23 @@ def draw_score(cb_counter, sb_counter, cbo_list, cb_list, sb_dict, sbo_lists, sb
         s *= (sb_sup-sb_inf)/sb_counter
     return s
 
-def scores(n, base_lists, cb, sb, load=False):
+def scores(n, model, load=False):
     """
     n: size of the sample
-    base_lists: tuple of lists of composed bases and simple bases (or pickled file if load)
-    cb: tuple of number of composed bases and dict of composed bases (or pickled file if load)
-    sb: same for simple bases (or pickled file if load)
+    model:
+        base_lists: tuple of lists of composed bases and simple bases (or pickled file if load)
+        cb: tuple of number of composed bases and dict of composed bases (or pickled file if load)
+        sb: same for simple bases (or pickled file if load)
     load: either load or not from pickled objects
     """
     if load:
-        (composed_bases_list, simple_bases_lists) = pickle.load(open(base_lists, "rb"))
-        (cb_counter, composed_bases_dict) = pickle.load(open(cb, "rb"))
-        (sb_counter, simple_bases_dict) = pickle.load(open(sb, "rb"))
+        (composed_bases_list, simple_bases_lists) = pickle.load(open(model[0], "rb"))
+        (cb_counter, composed_bases_dict) = pickle.load(open(model[1], "rb"))
+        (sb_counter, simple_bases_dict) = pickle.load(open(model[2], "rb"))
     else:
-        (composed_bases_list, simple_bases_lists) = base_lists
-        (cb_counter, composed_bases_dict) = cb
-        (sb_counter, simple_bases_dict) = sb
+        (composed_bases_list, simple_bases_lists) = model[0]
+        (cb_counter, composed_bases_dict) = model[1]
+        (sb_counter, simple_bases_dict) = model[2]
     
     scores_list = []
     cbo_list = []

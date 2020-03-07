@@ -107,7 +107,7 @@ def monte_carlo_sample(d, n, load=False):
         d = construct_dict(d)
     dico = { 'rockyou' : d}
 
-    rdset.scores(10000000)
-
-    gr.construct_grammar_model(dico)
-    construct_time_test(d, "rockyou", 10)
+    model = gr.construct_grammar_model(dico)
+    sample = rdset.scores(10000000, model)
+    # construct_time_test(d, "rockyou", 10)
+    return model, sample

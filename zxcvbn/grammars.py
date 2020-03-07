@@ -74,10 +74,7 @@ def construct_grammar_model(_ranked_dictionaries=FREQUENCY_DICTIONARIES):
                     else:
                         simple_bases_dict[p] = k
 
-    pickle.dump((cb_counter, composed_bases_dict), open("cb_dictionary.p", "wb"))
-    pickle.dump((sb_counter, simple_bases_dict), open("sb_dictionary.p", "wb"))
     key = 0
-
     for cb in composed_bases_dict:
         key += composed_bases_dict[cb]
         composed_bases_list[key] = cb
@@ -88,7 +85,5 @@ def construct_grammar_model(_ranked_dictionaries=FREQUENCY_DICTIONARIES):
         for cb in tmp_sb_lists[cbp]:
             key += tmp_sb_lists[cbp][cb]
             simple_bases_lists[cbp][key] = cb
-    #
-    pickle.dump((composed_bases_list, simple_bases_lists), open("lists.p", "wb"))
 
-    return
+    return (composed_bases_list, simple_bases_lists), (cb_counter, composed_bases_dict), (sb_counter, simple_bases_dict)
