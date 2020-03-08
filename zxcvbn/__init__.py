@@ -1,14 +1,21 @@
 from datetime import datetime
 
 from . import matching, scoring, time_estimates, feedback
+from .grammar import Grammar
 
-def zxcvbn(password, user_inputs=None):
+GRAMMAR = None
+
+def zxcvbn(password, user_inputs=None, filename=None):
+    global GRAMMAR
     try:
         # Python 2 string types
         basestring = (str, unicode)
     except NameError:
         # Python 3 string types
         basestring = (str, bytes)
+
+    if filename is not None and GRAMMAR is None:
+        GRAMMAR = Grammar(filename, count=True)
 
     if user_inputs is None:
         user_inputs = []
@@ -24,7 +31,7 @@ def zxcvbn(password, user_inputs=None):
     ranked_dictionaries = matching.RANKED_DICTIONARIES
     ranked_dictionaries['user_inputs'] = matching.build_ranked_dict(sanitized_inputs)
 
-    matches = matching.omnimatch(password, ranked_dictionaries)
+    matches = matching.omnimatch(password, GRAMMAR, ranked_dictionaries)
     result = scoring.most_guessable_match_sequence(password, matches)
     result['calc_time'] = datetime.now() - start
 

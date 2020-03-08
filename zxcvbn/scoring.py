@@ -238,6 +238,7 @@ def estimate_guesses(match, password):
         'sequence': sequence_guesses,
         'regex': regex_guesses,
         'date': date_guesses,
+        'probabilistic': probabilistic_guesses,
     }
 
     guesses = estimation_functions[match['pattern']](match)
@@ -246,6 +247,9 @@ def estimate_guesses(match, password):
 
     return Decimal(match['guesses'])
 
+def probabilistic_guesses(match):
+    g = match['grammar']
+    return g.get_rank(match['token'])
 
 def bruteforce_guesses(match):
     guesses = BRUTEFORCE_CARDINALITY ** len(match['token'])

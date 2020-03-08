@@ -1,8 +1,9 @@
 import os
 import string
 import random
+import pickle
 from collections import defaultdict as ddict
-import grammar_parse
+from . import grammar_parse
 from _parse import ffi, lib as plib
 
 def S(): return 'S'
@@ -31,8 +32,16 @@ class Grammar:
 		self.terminals = ddict(dict)
 		self.ordered_terms = dict()
 		self.count = count
-		self.learn(filename)
-		self.sample = self.monte_carlo_sample(n)
+		grammar_dump = 'grammar.mcs'
+		if os.path.isfile(grammar_dump):
+			self.sample = pickle.load(open(grammar_dump, 'rb'))
+		else:
+			print("Learning")
+			self.learn(filename)
+			print("Sampling")
+			self.sample = self.monte_carlo_sample(n)
+			pickle.dump(self.sample, open(grammar_dump, 'wb'))
+
 
 	def learn(self, filename):
 		"""

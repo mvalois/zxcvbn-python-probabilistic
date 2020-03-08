@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "parse.h"
+#include "zxcvbn/parse.h"
 
 gramm parse(char* word){
 	gramm g;

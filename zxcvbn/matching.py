@@ -75,22 +75,30 @@ DATE_SPLITS = {
 
 
 # omnimatch -- perform all matches
-def omnimatch(password, _ranked_dictionaries=RANKED_DICTIONARIES):
+def omnimatch(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
     matches = []
     for matcher in [
         dictionary_match,
         reverse_dictionary_match,
         l33t_match,
         spatial_match,
-        repeat_match,
         sequence_match,
         regex_match,
         date_match,
     ]:
         matches.extend(matcher(password, _ranked_dictionaries=_ranked_dictionaries))
-
+    matches.extend(probabilistic_match(password, grammar))
+    matches.extend(repeat_match(password, grammar, _ranked_dictionaries=_ranked_dictionaries))
     return sorted(matches, key=lambda x: (x['i'], x['j']))
 
+def probabilistic_match(password, grammar):
+    return [{
+        'pattern': 'probabilistic',
+        'i': 0,
+        'j': len(password)-1,
+        'token': password,
+        'grammar': grammar,
+    }]
 
 # dictionary match (common passwords, english, last names, etc)
 def dictionary_match(password, _ranked_dictionaries=RANKED_DICTIONARIES):
@@ -247,7 +255,7 @@ def l33t_match(password, _ranked_dictionaries=RANKED_DICTIONARIES,
 
 
 # repeats (aaa, abcabcabc) and sequences (abcdef)
-def repeat_match(password, _ranked_dictionaries=RANKED_DICTIONARIES):
+def repeat_match(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
     matches = []
     greedy = re.compile(r'(.+)\1+')
     lazy = re.compile(r'(.+?)\1+')
@@ -279,7 +287,7 @@ def repeat_match(password, _ranked_dictionaries=RANKED_DICTIONARIES):
         # recursively match and score the base string
         base_analysis = most_guessable_match_sequence(
             base_token,
-            omnimatch(base_token)
+            omnimatch(base_token, grammar)
         )
         base_matches = base_analysis['sequence']
         base_guesses = base_analysis['guesses']
