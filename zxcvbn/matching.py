@@ -87,7 +87,8 @@ def omnimatch(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
         date_match,
     ]:
         matches.extend(matcher(password, _ranked_dictionaries=_ranked_dictionaries))
-    matches.extend(probabilistic_match(password, grammar))
+    if grammar is not None:
+        matches.extend(probabilistic_match(password, grammar))
     matches.extend(repeat_match(password, grammar, _ranked_dictionaries=_ranked_dictionaries))
     return sorted(matches, key=lambda x: (x['i'], x['j']))
 

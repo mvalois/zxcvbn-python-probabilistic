@@ -2,6 +2,7 @@ import os
 import string
 import random
 import pickle
+import multiprocessing as mp
 from collections import defaultdict as ddict
 from . import grammar_parse
 from _parse import ffi, lib as plib
@@ -9,7 +10,7 @@ from _parse import ffi, lib as plib
 def S(): return 'S'
 
 class Grammar:
-	def __init__(self, filename, n=10**4, count=False):
+	def __init__(self, filename, n=10**5, count=False):
 		# If letter is not lower or digit it's special
 		self.type = ddict(S)
 		for alpha in string.ascii_letters:
@@ -110,6 +111,19 @@ class Grammar:
 		proba *= self.base[comp_base]
 		return proba
 
+	def sousbase_sample(self, arg):
+		base, p = arg
+		for sous_base in base.split('_'):
+			if sous_base not in self.cache:
+				psous_bases = list()
+				for term, pterm in self.terminals[sous_base].items():
+					psous_bases.append(pterm)
+				self.cache[sous_base] = psous_bases
+			else:
+				psous_bases = self.cache[sous_base]
+			p *= random.choices(psous_bases, psous_bases)[0]
+		return p
+
 	def monte_carlo_sample(self, n):
 		bases = list()
 		pbases = list()
@@ -118,17 +132,9 @@ class Grammar:
 			pbases.append(p)
 		bases_samples = random.choices(bases, pbases, k=n)
 		psamples = list()
-		cache = dict()
-		for base, p in bases_samples:
-			for sous_base in base.split('_'):
-				if sous_base not in cache:
-					psous_bases = list()
-					for term, pterm in self.terminals[sous_base].items():
-						psous_bases.append(pterm)
-					cache[sous_base] = psous_bases
-				else:
-					psous_bases = cache[sous_base]
-				p *= random.choices(psous_bases, psous_bases)[0]
+		self.cache = dict()
+		pool = mp.Pool()
+		for p in pool.imap_unordered(self.sousbase_sample, bases_samples, chunksize=n//pool._processes):
 			psamples.append(p)
 		return sorted(psamples, reverse=True)
 
