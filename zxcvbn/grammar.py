@@ -9,6 +9,22 @@ from _parse import ffi, lib as plib
 
 def S(): return 'S'
 
+class Sousbase(tuple):
+	def __new__(self, t):
+		return tuple.__new__(Sousbase, (t[0], int(t[1])))
+
+class Base(list):
+	def __init__(self, base=None):
+		if base is not None:
+			for sous_base in base.split('_'):
+				self.append(Sousbase(sous_base[0], sous_base[1:]))
+
+	def __str__(self):
+		return "_".join([a + str(b) for a, b in self])
+
+	def __hash__(self):
+		return hash(tuple(self))
+
 class Grammar:
 	def __init__(self, filename, n=10**5, count=False):
 		# If letter is not lower or digit it's special
@@ -78,31 +94,30 @@ class Grammar:
 			return
 		base = ffi.string(gramm.base).decode()
 		nbterms = gramm.nbterms
-		comp_base = list()
+		comp_base = Base()
 		for i in range(nbterms):
 			term = ffi.string(gramm.terms[i]).decode()
 			term_len = len(term)
-			sous_base = base[0] + str(term_len)
+			sous_base = Sousbase((base[0], term_len))
 			if term in self.terminals[sous_base]:
 				self.terminals[sous_base][term] += occ
 			else:
 				self.terminals[sous_base][term]  = occ
 			comp_base.append(sous_base)
 			base = base[term_len:]
-		base = '_'.join(comp_base)
-		self.base[base] += occ
+		self.base[comp_base] += occ
 
 	def proba(self, word):
 		gramm = plib.parse(word.encode('ascii'))
 		base = ffi.string(gramm.base).decode()
 		nbterms = gramm.nbterms
 		proba = 1
-		comp_base = ""
+		comp_base = Base()
 		for i in range(nbterms):
 			term = ffi.string(gramm.terms[i]).decode()
 			term_len = len(term)
-			sous_base = base[0] + str(term_len)
-			comp_base += sous_base
+			sous_base = Sousbase((base[0], term_len))
+			comp_base.append(sous_base)
 			if term not in self.terminals[sous_base]:
 				return 0
 			proba *= self.terminals[sous_base][term]
@@ -113,7 +128,7 @@ class Grammar:
 
 	def sousbase_sample(self, arg):
 		base, p = arg
-		for sous_base in base.split('_'):
+		for sous_base in base:
 			if sous_base not in self.cache:
 				psous_bases = list()
 				for term, pterm in self.terminals[sous_base].items():
