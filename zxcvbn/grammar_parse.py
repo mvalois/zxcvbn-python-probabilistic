@@ -6,11 +6,11 @@ ffibuilder.cdef("""
 #define TERM_T 40
 typedef struct {
 	char base[BASE_T];
-	char terms[TERM_T][PWD_T];
+	wchar_t terms[TERM_T][PWD_T];
 	int  nbterms;
 } gramm;
 
-gramm parse(char word[PWD_T]);
+gramm parse(wchar_t word[PWD_T]);
 """)
 
 ffibuilder.set_source("_parse", 
@@ -22,28 +22,34 @@ ffibuilder.set_source("_parse",
 #define TERM_T 40
 typedef struct {
 	char base[BASE_T];
-	char terms[TERM_T][PWD_T];
+	wchar_t terms[TERM_T][PWD_T];
 	int  nbterms;
 } gramm;
 
-gramm parse(char word[PWD_T]){
+void wstrcpy(wchar_t* outbuff, wchar_t* inbuff, int size){
+	for(int j = 0; j < size; j++){
+		outbuff[j] = inbuff[j];
+	}
+	outbuff[size] = L'\\0';
+}
+
+gramm parse(wchar_t word[PWD_T]){
 	gramm g;
 	g.nbterms = 0;
 	int i = 0;
-	char c;
+	wchar_t c;
 	int chain_length = 0;
-	char term[TERM_T];
+	wchar_t term[TERM_T];
 	memset(term, '\\0', TERM_T);
-	while(word[i] != '\\0' && i < PWD_T){
+	while(word[i] != L'\\0' && i < PWD_T){
 		c = word[i];
-		if      (c >= 'a' && c <= 'z')  g.base[i] = 'L';
-		else if (c >= 'A' && c <= 'Z')  g.base[i] = 'L';
-		else if (c >= '0' && c <= '9')  g.base[i] = 'D';
-		else                            g.base[i] = 'S';
+		if      (c >= L'a' && c <= L'z')  g.base[i] = 'L';
+		else if (c >= L'A' && c <= L'Z')  g.base[i] = 'L';
+		else if (c >= L'0' && c <= L'9')  g.base[i] = 'D';
+		else                              g.base[i] = 'S';
 		if (i > 0 && (g.base[i] != g.base[i-1])){
-			term[i+1] = '\\0';
-			strcpy(g.terms[g.nbterms], term);
-			memset(term, '\\0', TERM_T);
+			wstrcpy(g.terms[g.nbterms], term, chain_length);
+			memset(term, L'\\0', TERM_T);
 			g.nbterms++;
 			chain_length = 0;
 		}
@@ -51,7 +57,7 @@ gramm parse(char word[PWD_T]){
 		chain_length++;
 		i++;
 	}
-	strcpy(g.terms[g.nbterms], term);
+	wstrcpy(g.terms[g.nbterms], term, chain_length);
 	g.nbterms++;
 	g.base[i] = '\\0';
 	return g;

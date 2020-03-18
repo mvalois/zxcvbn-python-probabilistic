@@ -86,17 +86,14 @@ class Grammar:
 				term_proba[term] = proba / nb_terms
 
 	def cparse(self, word, occ=1):
-		if len(word) == 0 or len(word) >= 20:
+		if len(word) == 0 or len(word) > 40:
 			return
-		try:
-			gramm = plib.parse(word.encode('ascii'))
-		except UnicodeEncodeError:
-			return
+		gramm = plib.parse(ffi.new("wchar_t[]", word))
 		base = ffi.string(gramm.base).decode()
 		nbterms = gramm.nbterms
 		comp_base = Base()
 		for i in range(nbterms):
-			term = ffi.string(gramm.terms[i]).decode()
+			term = ffi.string(gramm.terms[i])
 			term_len = len(term)
 			sous_base = Sousbase((base[0], term_len))
 			if term in self.terminals[sous_base]:
@@ -108,13 +105,13 @@ class Grammar:
 		self.base[comp_base] += occ
 
 	def proba(self, word):
-		gramm = plib.parse(word.encode('ascii'))
+		gramm = plib.parse(ffi.new("wchar_t[]", word))
 		base = ffi.string(gramm.base).decode()
 		nbterms = gramm.nbterms
 		proba = 1
 		comp_base = Base()
 		for i in range(nbterms):
-			term = ffi.string(gramm.terms[i]).decode()
+			term = ffi.string(gramm.terms[i])
 			term_len = len(term)
 			sous_base = Sousbase((base[0], term_len))
 			comp_base.append(sous_base)
