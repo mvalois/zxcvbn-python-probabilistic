@@ -51,13 +51,13 @@ class Grammar:
 		self.count = count
 		grammar_dump = 'grammar.mcs'
 		if os.path.isfile(grammar_dump):
-			self.sample = pickle.load(open(grammar_dump, 'rb'))
+			self.sample, self.base, self.terminals = pickle.load(open(grammar_dump, 'rb'))
 		else:
 			print("Learning")
 			self.learn(filename)
 			print("Sampling")
 			self.sample = self.monte_carlo_sample(n)
-			pickle.dump(self.sample, open(grammar_dump, 'wb'))
+			pickle.dump((self.sample, self.base, self.terminals), open(grammar_dump, 'wb'))
 
 
 	def learn(self, filename):
