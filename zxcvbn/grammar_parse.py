@@ -1,9 +1,9 @@
 from cffi import FFI
 ffibuilder = FFI()
 ffibuilder.cdef("""
-#define PWD_T  20
-#define BASE_T 20
-#define TERM_T 20
+#define PWD_T  40
+#define BASE_T 40
+#define TERM_T 40
 typedef struct {
 	char base[BASE_T];
 	char terms[TERM_T][PWD_T];
@@ -17,9 +17,9 @@ ffibuilder.set_source("_parse",
 """
 #include <stdio.h>
 
-#define PWD_T  20
-#define BASE_T 20
-#define TERM_T 20
+#define PWD_T  40
+#define BASE_T 40
+#define TERM_T 40
 typedef struct {
 	char base[BASE_T];
 	char terms[TERM_T][PWD_T];
