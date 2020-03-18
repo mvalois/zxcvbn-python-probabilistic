@@ -10,7 +10,7 @@ typedef struct {
 	int  nbterms;
 } gramm;
 
-gramm parse(char* word);
+gramm parse(char word[PWD_T]);
 """)
 
 ffibuilder.set_source("_parse", 
@@ -26,7 +26,7 @@ typedef struct {
 	int  nbterms;
 } gramm;
 
-gramm parse(char* word){
+gramm parse(char word[PWD_T]){
 	gramm g;
 	g.nbterms = 0;
 	int i = 0;
@@ -34,7 +34,7 @@ gramm parse(char* word){
 	int chain_length = 0;
 	char term[TERM_T];
 	memset(term, '\\0', TERM_T);
-	while(word[i] != '\\0'){
+	while(word[i] != '\\0' && i < PWD_T){
 		c = word[i];
 		if      (c >= 'a' && c <= 'z')  g.base[i] = 'L';
 		else if (c >= 'A' && c <= 'Z')  g.base[i] = 'L';
