@@ -156,5 +156,7 @@ class Grammar:
 	def get_rank(self, word):
 		n = len(self.sample)
 		p = self.proba(word)
+		if not p:
+			return 1e20
 		rank = sum([1/(s*n) for s in self.sample if s > p])
 		return rank
