@@ -155,7 +155,7 @@ class Grammar:
 
 	def get_rank(self, word):
 		n = len(self.sample)
-		if n >= 40:
+		if len(word) >= 40:
 			return 1e20
 		p = self.proba(word)
 		if not p:
