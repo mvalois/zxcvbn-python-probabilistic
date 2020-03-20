@@ -75,7 +75,7 @@ DATE_SPLITS = {
 
 
 # omnimatch -- perform all matches
-def omnimatch(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
+def omnimatch(password, grammar, markov, _ranked_dictionaries=RANKED_DICTIONARIES):
     matches = []
     for matcher in [
         dictionary_match,
@@ -88,17 +88,28 @@ def omnimatch(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
     ]:
         matches.extend(matcher(password, _ranked_dictionaries=_ranked_dictionaries))
     if grammar is not None:
-        matches.extend(probabilistic_match(password, grammar))
+        matches.extend(grammar_match(password, grammar))
+    if markov is not None:
+        matches.extend(markov_match(password, markov))
     matches.extend(repeat_match(password, grammar, _ranked_dictionaries=_ranked_dictionaries))
     return sorted(matches, key=lambda x: (x['i'], x['j']))
 
-def probabilistic_match(password, grammar):
+def grammar_match(password, grammar):
     return [{
-        'pattern': 'probabilistic',
+        'pattern': 'grammar',
         'i': 0,
         'j': len(password)-1,
         'token': password,
         'grammar': grammar,
+    }]
+
+def markov_match(password, markov):
+    return [{
+        'pattern': 'markov',
+        'i': 0,
+        'j': len(password)-1,
+        'token': password,
+        'markov': markov,
     }]
 
 # dictionary match (common passwords, english, last names, etc)

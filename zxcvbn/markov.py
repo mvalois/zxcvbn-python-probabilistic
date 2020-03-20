@@ -1,7 +1,7 @@
 import os
 import pickle
 import random
-from probabilistic_model import ProbabilisticModel
+from .probabilistic_model import ProbabilisticModel
 
 from ngram import NGram as ngram
 
