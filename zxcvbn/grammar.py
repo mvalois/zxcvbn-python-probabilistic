@@ -4,6 +4,7 @@ import random
 import pickle
 import multiprocessing as mp
 from collections import defaultdict as ddict
+from .probabilistic_model import ProbabilisticModel
 from . import grammar_parse
 from _parse import ffi, lib as plib
 
@@ -25,7 +26,7 @@ class Base(list):
 	def __hash__(self):
 		return hash(tuple(self))
 
-class Grammar:
+class Grammar(ProbabilisticModel):
 	def __init__(self, filename, n=10**5, count=False):
 		# If letter is not lower or digit it's special
 		self.type = ddict(S)
@@ -48,17 +49,13 @@ class Grammar:
 		"""
 		self.terminals = ddict(dict)
 		self.ordered_terms = dict()
-		self.count = count
-		grammar_dump = 'grammar.mcs'
-		if os.path.isfile(grammar_dump):
-			self.sample, self.base, self.terminals = pickle.load(open(grammar_dump, 'rb'))
-		else:
-			print("Learning")
-			self.learn(filename)
-			print("Sampling")
-			self.sample = self.monte_carlo_sample(n)
-			pickle.dump((self.sample, self.base, self.terminals), open(grammar_dump, 'wb'))
+		super().__init__(filename, n, count)
 
+	def dump(self, filename):
+		pickle.dump((self.sample, self.base, self.terminals), open(filename, 'wb'))
+
+	def load(self, filename):
+		self.sample, self.base, self.terminals = pickle.load(open(filename, 'rb'))
 
 	def learn(self, filename):
 		"""
@@ -149,13 +146,3 @@ class Grammar:
 		for p in pool.imap_unordered(self.sousbase_sample, bases_samples, chunksize=n//pool._processes):
 			psamples.append(p)
 		return sorted(psamples, reverse=True)
-
-	def get_rank(self, word):
-		n = len(self.sample)
-		if len(word) >= 40:
-			return 1e20
-		p = self.proba(word)
-		if not p:
-			return 1e20
-		rank = sum([1/(s*n) for s in self.sample if s > p])
-		return rank
