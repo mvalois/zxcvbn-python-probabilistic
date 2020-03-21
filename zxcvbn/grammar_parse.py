@@ -13,7 +13,7 @@ typedef struct {
 gramm parse(wchar_t word[PWD_T]);
 """)
 
-ffibuilder.set_source("_parse", 
+ffibuilder.set_source("_grammar_parse",
 """
 #include <stdio.h>
 
@@ -40,7 +40,7 @@ gramm parse(wchar_t word[PWD_T]){
 	wchar_t c;
 	int chain_length = 0;
 	wchar_t term[TERM_T];
-	memset(term, '\\0', TERM_T);
+	memset(term, L'\\0', TERM_T*sizeof(wchar_t));
 	while(word[i] != L'\\0' && i < PWD_T){
 		c = word[i];
 		if      (c >= L'a' && c <= L'z')  g.base[i] = 'L';
@@ -49,7 +49,7 @@ gramm parse(wchar_t word[PWD_T]){
 		else                              g.base[i] = 'S';
 		if (i > 0 && (g.base[i] != g.base[i-1])){
 			wstrcpy(g.terms[g.nbterms], term, chain_length);
-			memset(term, L'\\0', TERM_T);
+			memset(term, L'\\0', TERM_T*sizeof(wchar_t));
 			g.nbterms++;
 			chain_length = 0;
 		}

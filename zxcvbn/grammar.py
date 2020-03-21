@@ -6,7 +6,7 @@ import multiprocessing as mp
 from collections import defaultdict as ddict
 from .probabilistic_model import ProbabilisticModel
 from . import grammar_parse
-from _parse import ffi, lib as plib
+from _grammar_parse import ffi, lib as plib
 
 def S(): return 'S'
 
