@@ -2,8 +2,8 @@ import os
 import pickle
 import random
 from .probabilistic_model import ProbabilisticModel
-
-from ngram import NGram as ngram
+from . import ngram_parse
+from _ngram_parse import ffi, lib as plib
 
 from collections import defaultdict as ddict
 
@@ -17,7 +17,6 @@ class Markov(ProbabilisticModel):
 	def __init__(self, filename, n=10**5, count=False, N=3, nblevel=10):
 		self.probas = ddict(get_ddict)
 		self.N = N
-		self._ngrams_obj = ngram(N=self.N)
 		super().__init__(filename, n, count)
 
 	def dump(self, filename):
@@ -44,7 +43,8 @@ class Markov(ProbabilisticModel):
 
 	def proba(self, word):
 		p = 1
-		gramms = [g for g in self._ngrams_obj.ngrams(word)]
+		gramms = plib.parse(ffi.new("wchar_t[]", word), self.N)
+		gramms = [ffi.string(gramms.grams[i]) for i in range(gramms.nbngrams)]
 		p *= self.probas[S][gramms[0][:-1]]
 		p *= self.probas[gramms[-1][1:]][E]
 		for g in gramms:
@@ -79,7 +79,8 @@ class Markov(ProbabilisticModel):
 		Compute all n-grams of word
 		and store number of occurrences
 		"""
-		gramms = [g for g in self._ngrams_obj.ngrams(word)]
+		gramms = plib.parse(ffi.new("wchar_t[]", word), self.N)
+		gramms = [ffi.string(gramms.grams[i]) for i in range(gramms.nbngrams)]
 		self.probas[S][gramms[0][:-1]] += count
 		self.probas[gramms[-1][1:]][E] += count
 		for g in gramms:

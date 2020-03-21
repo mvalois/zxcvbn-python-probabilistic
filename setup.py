@@ -34,6 +34,7 @@ setup(
         'Topic :: Software Development :: Libraries :: Python Modules',
     ],
     setup_requires=["cffi>=1.0.0"],
-    cffi_modules=["zxcvbn/grammar_parse.py:ffibuilder"],
+    cffi_modules=["zxcvbn/grammar_parse.py:ffibuilder",
+                  "zxcvbn/ngram_parse.py:ffibuilder"],
     install_requires=["cffi>=1.0.0"],
 )
