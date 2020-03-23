@@ -44,7 +44,7 @@ class Markov(ProbabilisticModel):
 				rhs[g] /= k
 
 	def proba(self, word):
-		if len(word) > 40:
+		if len(word) > 40 or len(word) < self.N:
 			return 0
 		p = 1
 		gramms = plib.parse(ffi.new("wchar_t[]", word), self.N)
