@@ -91,7 +91,7 @@ def omnimatch(password, grammar, markov, _ranked_dictionaries=RANKED_DICTIONARIE
         matches.extend(grammar_match(password, grammar))
     if markov is not None:
         matches.extend(markov_match(password, markov))
-    matches.extend(repeat_match(password, grammar, _ranked_dictionaries=_ranked_dictionaries))
+    matches.extend(repeat_match(password, grammar, markov, _ranked_dictionaries=_ranked_dictionaries))
     return sorted(matches, key=lambda x: (x['i'], x['j']))
 
 def grammar_match(password, grammar):
@@ -267,7 +267,7 @@ def l33t_match(password, _ranked_dictionaries=RANKED_DICTIONARIES,
 
 
 # repeats (aaa, abcabcabc) and sequences (abcdef)
-def repeat_match(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
+def repeat_match(password, grammar, markov, _ranked_dictionaries=RANKED_DICTIONARIES):
     matches = []
     greedy = re.compile(r'(.+)\1+')
     lazy = re.compile(r'(.+?)\1+')
@@ -299,7 +299,7 @@ def repeat_match(password, grammar, _ranked_dictionaries=RANKED_DICTIONARIES):
         # recursively match and score the base string
         base_analysis = most_guessable_match_sequence(
             base_token,
-            omnimatch(base_token, grammar)
+            omnimatch(base_token, grammar, markov)
         )
         base_matches = base_analysis['sequence']
         base_guesses = base_analysis['guesses']
