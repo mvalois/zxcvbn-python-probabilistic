@@ -29,6 +29,8 @@ class Markov(ProbabilisticModel):
 		with open(filename) as inbuff:
 			for word in inbuff:
 				word = word.strip()
+				if len(word) > 40:
+					continue
 				if self.count:
 					count, word = word.split(maxsplit=1)
 					count = int(count)
@@ -42,6 +44,8 @@ class Markov(ProbabilisticModel):
 				rhs[g] /= k
 
 	def proba(self, word):
+		if len(word) > 40:
+			return 0
 		p = 1
 		gramms = plib.parse(ffi.new("wchar_t[]", word), self.N)
 		gramms = [ffi.string(gramms.grams[i]) for i in range(gramms.nbngrams)]
