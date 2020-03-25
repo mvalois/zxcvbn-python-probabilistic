@@ -7,7 +7,7 @@ from .markov import Markov
 GRAMMAR = None
 MARKOV  = None
 
-def zxcvbn(password, user_inputs=None, filename=None):
+def zxcvbn(password, user_inputs=None, filename=None, grammar=True, markov=True):
     global GRAMMAR
     global MARKOV
     try:
@@ -17,10 +17,10 @@ def zxcvbn(password, user_inputs=None, filename=None):
         # Python 3 string types
         basestring = (str, bytes)
 
-    if filename is not None and GRAMMAR is None:
+    if grammar and filename is not None and GRAMMAR is None:
         GRAMMAR = Grammar(filename, count=True)
 
-    if filename is not None and MARKOV is None:
+    if markov and filename is not None and MARKOV is None:
         MARKOV = Markov(filename, count=True)
 
     if user_inputs is None:
